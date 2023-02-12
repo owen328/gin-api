@@ -6,23 +6,23 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"net/url"
-	"os"
 )
 
 var DB *gorm.DB
 var Salt string
+
 func init() {
 	initConfig()
 	initDB()
 }
 
 func initConfig() {
-	workerDir, _ := os.Getwd()
+	//workerDir, _ := os.Getwd()
 	viper.SetConfigName("app")
 	viper.SetConfigType("yml")
-	viper.AddConfigPath(workerDir)
+	viper.AddConfigPath(".")
 	fmt.Println("配置初始化")
-	
+
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
@@ -48,7 +48,6 @@ func initDB() *gorm.DB {
 		url.QueryEscape(loc),
 	)
 	fmt.Println("数据库连接:", sqlStr)
-	
 	db, err := gorm.Open(mysql.Open(sqlStr))
 	if err != nil {
 		panic(err)
