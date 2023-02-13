@@ -39,5 +39,6 @@ func ParseToken(tokenString string) (*jwt.Token, *AdminClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
+
 	return token, claims, err
 }

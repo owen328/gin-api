@@ -6,19 +6,15 @@ import (
 	"go_learn/app/middleware"
 )
 
+func initAdminRouter(route *gin.RouterGroup) {
 
-var c *controller.Admin
-
-func init()  {
-	c = controller.NewAdmin()
-}
-
-func adminRouters(route *gin.RouterGroup)  {
-	route.POST("/register", c.Register)
-	route.POST("/login", c.Login)
-	group := route.Group("").Use(middleware.AuthMiddleware())
+	c := controller.NewAdmin()
+	routerGroup := route.Group("/admin")
+	routerGroup.POST("/register", c.Register)
+	routerGroup.POST("/login", c.Login)
+	group := routerGroup.Use(middleware.AuthMiddleware())
 	{
 		group.GET("/home", c.Home)
 	}
-	
+
 }

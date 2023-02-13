@@ -5,7 +5,7 @@ server:
 database:
   driver: mysql
   host: host.docker.internal
-  port: 3305
+  port: 3306
   database: gin
   username: root
   password: 123456

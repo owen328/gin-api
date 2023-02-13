@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go_learn/app/form"
 	"go_learn/app/model"
@@ -73,7 +72,6 @@ func (a Admin) Login(c *gin.Context) {
 		utils.Fail(c, "账号或密码错误")
 		return
 	}
-	fmt.Println(adminModel)
 	ok := utils.CheckPassword(loginForm.Password, adminModel.Password)
 	if !ok {
 		utils.Fail(c, "账号或密码错误")
