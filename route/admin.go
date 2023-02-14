@@ -15,6 +15,7 @@ func initAdminRouter(route *gin.RouterGroup) {
 	group := routerGroup.Use(middleware.AuthMiddleware())
 	{
 		group.GET("/home", c.Home)
+		group.POST("/upload", c.Upload)
 	}
 
 }

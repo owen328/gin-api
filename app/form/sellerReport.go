@@ -1,5 +1,6 @@
 package form
 
 type UploadSellerReportForm struct {
-	FilePath string `json:"file_path"`
+	StartDate  string `form:"start_date"`
+	PeriodType int8   `form:"period_type"`
 }

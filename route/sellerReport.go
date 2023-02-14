@@ -11,7 +11,7 @@ func initSellerReportRouter(route *gin.RouterGroup) {
 	c := controller.NewSellerReport()
 	group := route.Group("/seller-report").Use(middleware.AuthMiddleware())
 	{
-		group.GET("/upload", c.UploadSellerReport)
+		group.POST("/upload", c.UploadSellerReport)
 	}
 
 }

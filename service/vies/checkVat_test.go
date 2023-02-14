@@ -25,7 +25,7 @@ func Test_checkVat(t *testing.T) {
 				t.Error(err)
 			}
 			fmt.Println(vat)
-			
+
 		})
 	}
 }

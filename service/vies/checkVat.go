@@ -82,7 +82,7 @@ func CheckVat(VatNumber string) (*VatResponse, error) {
 	if respXml.Soap.Soap.RequestDate == "" {
 		return nil, errors.New("service returned invalid request date")
 	}
-	respDate, err := time.Parse("2006-01-02-07:00", respXml.Soap.Soap.RequestDate)
+	respDate, err := time.Parse("2006-01-02+15:04", respXml.Soap.Soap.RequestDate)
 	if err != nil {
 		return nil, err
 	}

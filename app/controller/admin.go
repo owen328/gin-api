@@ -8,6 +8,8 @@ import (
 	"go_learn/utils"
 	"gorm.io/gorm"
 	"net/http"
+	"os"
+	"path"
 )
 
 type IAdmin interface {
@@ -15,6 +17,7 @@ type IAdmin interface {
 	Register(c *gin.Context)
 	Login(c *gin.Context)
 	Home(c *gin.Context)
+	Upload(c *gin.Context)
 }
 
 type Admin struct {
@@ -96,4 +99,47 @@ func (a Admin) Home(c *gin.Context) {
 	utils.Success(c, map[string]any{
 		"username": username,
 	})
+}
+
+func (a Admin) Upload(c *gin.Context) {
+	file, err := c.FormFile("file_path")
+	if err != nil {
+		utils.Fail(c, err.Error())
+		return
+	}
+
+	fs, err := file.Open()
+	if err != nil {
+		utils.Fail(c, err.Error())
+		return
+	}
+	defer fs.Close()
+	md5, err := common.FileMd5(fs)
+	if err != nil {
+		utils.Fail(c, err.Error())
+		return
+	}
+	//指针归零
+	fs.Seek(0, 0)
+
+	cur, err := os.Getwd()
+	if err != nil {
+		utils.Fail(c, err.Error())
+		return
+	}
+	uploadDir := path.Join(cur, "uploads")
+	os.Mkdir(uploadDir, 0666)
+	uploadFilePath := path.Join(uploadDir, md5+path.Ext(file.Filename))
+
+	_, err = common.SaveFile(fs, uploadFilePath)
+
+	if err != nil {
+		utils.Fail(c, err.Error())
+		return
+	}
+
+	utils.Success(c, map[string]string{
+		"file_path": uploadFilePath,
+	})
+	return
 }
